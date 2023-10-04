@@ -91,7 +91,7 @@ func main() {
 
 func getRandomizedExponentialBackoff(retryCount int) time.Duration {
 	// Calculate the retry delay using improved exponential backoff with randomness.
-	minRetryDelay := time.Duration(1) * time.Second << uint(retryCount)
+	minRetryDelay := time.Duration(1) * time.Second
 	maxRetryDelay := time.Duration(2) * time.Second << uint(retryCount)
 
 	// Generate a random delay within the calculated range.

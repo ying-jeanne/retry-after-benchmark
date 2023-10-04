@@ -73,6 +73,7 @@ func DoRequest(retryNum int, currentConnect int) *http.Response {
 	client := http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
+		time.Sleep(500 * time.Millisecond)
 		DoRequest(retryNum, currentConnect+1)
 	}
 	return resp

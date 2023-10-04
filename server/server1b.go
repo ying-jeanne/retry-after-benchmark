@@ -34,8 +34,12 @@ func main() {
 		fmt.Println("Request received")
 		if !limiter.Allow() {
 			// Calculate the time to wait before retrying based on the rate limit.
-
-			waitTime := time.Duration(1+rand.Int63n(5)) * time.Second
+			// Generate jitter following a normal distribution
+			delaySeconds := 30 // Cap the base delay to 30 seconds
+			// Add a random jitter between -0.7*delaySeconds and +0.7*delaySeconds.
+			jitter := int(rand.Float64() * float64(delaySeconds) * 0.7)
+			delaySeconds += jitter
+			waitTime := time.Duration(delaySeconds) * time.Second
 
 			// Set the "Retry-After" header with the time to wait in seconds.
 			w.Header().Set("Retry-After", fmt.Sprintf("%.0f", waitTime.Seconds()))
